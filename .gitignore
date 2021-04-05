@@ -3,3 +3,7 @@
 
 # Environments
 .venv/
+
+# Unzipped Data
+data/kaggle_archive/
+data/review_polarity/
