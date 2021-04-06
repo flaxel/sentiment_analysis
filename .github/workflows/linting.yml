@@ -20,7 +20,6 @@ jobs:
         python -m venv .venv
         source .venv/bin/activate
         pipenv install --dev
-        pipenv install pylint
     - name: Analysing the code with pylint
       run: |
         pipenv run pylint src
