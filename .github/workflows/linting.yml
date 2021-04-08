@@ -1,9 +1,9 @@
-name: Linting
+name: linting
 
 on: [push]
 
 jobs:
-  build:
+  pylint:
 
     runs-on: ubuntu-latest
 
