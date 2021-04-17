@@ -1,22 +1,5 @@
-import glob as gg
-import os
 import pandas as pd
-
-# constants
-POSITIVE = 4
-NEGATIVE = 0
-
-
-def read(folder, sentiment):
-    rows = []
-
-    for path in gg.glob(folder):
-        with open(path, "r") as file:
-            data = file.read().replace("\n", "")
-            name = os.path.splitext(os.path.basename(path))[0]
-            rows.append([sentiment, name, data])
-
-    return rows
+from utils import read, POSITIVE, NEGATIVE
 
 
 def main():

@@ -1,4 +1,3 @@
-from datetime import datetime
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -32,15 +31,4 @@ def main():
 
 
 if __name__ == "__main__":
-    # configuration of pandas
-    pd.set_option("display.max_columns", None)
-
-    start = datetime.now()
-    print("Start:", start, "\n")
-
     main()
-
-    end = datetime.now()
-    print("\nEnd:", end)
-
-    print("Runtime:", end - start)

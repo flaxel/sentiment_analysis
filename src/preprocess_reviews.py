@@ -1,31 +1,13 @@
-import glob as gg
-import os
-from datetime import datetime
 import re
 import pandas as pd
 import spacy
 from spacy.lang.en.stop_words import STOP_WORDS
-
-# constants
-POSITIVE = 4
-NEGATIVE = 0
-
-
-def read(folder, sentiment):
-    rows = []
-
-    for path in gg.glob(folder):
-        with open(path, "r") as file:
-            data = file.read().replace("\n", "")
-            name = os.path.splitext(os.path.basename(path))[0]
-            rows.append([sentiment, name, data])
-
-    return rows
+from utils import read, POSITIVE, NEGATIVE, MODEL
 
 
 def preprocess(index, text):
     # Tokenization & Lemmatization
-    nlp = spacy.load("en_core_web_sm")
+    nlp = spacy.load(MODEL)
     doc = nlp(text)
     text = [token.lemma_ for token in doc]
 
@@ -69,15 +51,4 @@ def main():
 
 
 if __name__ == "__main__":
-    # configuration of pandas
-    pd.set_option("display.max_columns", None)
-
-    start = datetime.now()
-    print("Start:", start, "\n")
-
     main()
-
-    end = datetime.now()
-    print("\nEnd:", end)
-
-    print("Runtime:", end - start)
