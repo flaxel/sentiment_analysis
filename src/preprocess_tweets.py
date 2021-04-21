@@ -6,8 +6,17 @@ from utils import slang_to_text, POSITIVE, NEGATIVE, MODEL
 
 
 def preprocess(index, text):
+    # Lowercase
+    text = text.lower()
+
     # Removing URL links
-    text = re.sub(r"((www\.[^\s]+)|(https?://[^\s]+))", "URL", text)
+    text = re.sub(r"((www\.[^\s]+)|(https?://[^\s]+))", "", text)
+
+    # Removing hashtag
+    text = re.sub(r"[#]", "", text)
+
+    # Removing usernames
+    text = re.sub(r'@(\w+)', "", text)
 
     # Expanding acronyms
     text = slang_to_text(text)
@@ -27,6 +36,10 @@ def preprocess(index, text):
 
     # Lowercase
     text = [token.lower() for token in text]
+
+    # Removing punctuations
+    text = [token for token in text if not (re.match(r"[^\w\s]", token) and len(token) == 1)]
+    text = [token for token in text if token not in ["..", "..."]]
 
     # Removing numbers
     text = [token for token in text if not re.match(r"\d+", token)]
@@ -54,7 +67,7 @@ def main():
 
     rows = []
     index = 0
-    for _, row in tweets_reduced_df.head().iterrows():
+    for _, row in tweets_reduced_df.iterrows():
         preprocessed_feature = preprocess(index, row[5])
         rows.append([row[0], preprocessed_feature])
         index += 1
@@ -67,4 +80,5 @@ if __name__ == "__main__":
     # configuration of pandas
     pd.set_option("display.max_columns", None)
 
-    main()
+    #main()
+    print(preprocess(0, "Ugh. A fucked up dog and a shitty friend. Who else wants to jump on the swear train?"))
