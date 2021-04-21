@@ -80,5 +80,4 @@ if __name__ == "__main__":
     # configuration of pandas
     pd.set_option("display.max_columns", None)
 
-    #main()
-    print(preprocess(0, "Ugh. A fucked up dog and a shitty friend. Who else wants to jump on the swear train?"))
+    main()
