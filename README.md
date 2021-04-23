@@ -24,6 +24,9 @@ source .venv/bin/activate # on unix or macos
 
 # installing necessary dependencies
 pipenv install --dev
+
+# optional: installing trained spacy pipeline
+pipenv run python -m spacy download en_core_web_trf
 ```
 
 [python3]: https://www.python.org/

@@ -11,6 +11,7 @@ wheel = "*"
 spacy = "*"
 matplotlib = "*"
 pandas = "*"
+wordcloud = "*"
 
 [dev-packages]
 pylint = "*"
