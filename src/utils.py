@@ -1,10 +1,14 @@
 import os
 import glob as gg
+from itertools import chain
+import pandas as pd
+from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics import confusion_matrix, roc_curve, auc
 from sklearn.metrics import ConfusionMatrixDisplay, RocCurveDisplay
 import matplotlib.pyplot as plt
 import requests
 import numpy as np
+from wordcloud import WordCloud
 
 
 # constants
@@ -38,6 +42,24 @@ def slang_to_text(text):
     end_index = start_index + request.text[start_index:].find(postfix_str)
     result = request.text[start_index:end_index]
     return text if result == non_found else result
+
+
+def plot_wordcloud(tokens):
+    content = " ".join(list(chain(*(s.strip("][").split("', '") for s in tokens))))
+    cloud = WordCloud(max_font_size=50, max_words=100, background_color="white").generate(content)
+    plt.imshow(cloud, interpolation="bilinear")
+    plt.axis("off")
+
+
+def plot_top_n_words(tokens, n=20):
+    vectorizer = CountVectorizer()
+    bow = vectorizer.fit_transform(tokens)
+    sum_words = bow.sum(axis=0)
+    words_freq = [(word, sum_words[0, idx]) for word, idx in vectorizer.vocabulary_.items()]
+    words_freq = sorted(words_freq, key=lambda x: x[1], reverse=True)
+    top_words = words_freq[:n]
+    df = pd.DataFrame(top_words, columns=["token", "count"])
+    df.plot(x="token", y=["count"], kind="bar")
 
 
 def get_close_predicitions(y_pred, max_diff=0.05):
