@@ -51,15 +51,15 @@ def plot_wordcloud(tokens):
     plt.axis("off")
 
 
-def plot_top_n_words(tokens, n=20):
+def plot_top_n_words(tokens, n_words=20):
     vectorizer = CountVectorizer()
     bow = vectorizer.fit_transform(tokens)
     sum_words = bow.sum(axis=0)
     words_freq = [(word, sum_words[0, idx]) for word, idx in vectorizer.vocabulary_.items()]
     words_freq = sorted(words_freq, key=lambda x: x[1], reverse=True)
-    top_words = words_freq[:n]
-    df = pd.DataFrame(top_words, columns=["token", "count"])
-    df.plot(x="token", y=["count"], kind="bar")
+    top_words = words_freq[:n_words]
+    data_frame = pd.DataFrame(top_words, columns=["token", "count"])
+    data_frame.plot(x="token", y=["count"], kind="bar")
 
 
 def get_close_predicitions(y_pred, max_diff=0.05):
