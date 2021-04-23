@@ -19,6 +19,7 @@ jobs:
         pip install pipenv
         python -m venv .venv
         source .venv/bin/activate
+        pipenv check
         pipenv install --dev
     - name: Analysing the code with pylint
       run: |
