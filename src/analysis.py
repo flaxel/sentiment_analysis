@@ -3,33 +3,50 @@ from matplotlib import pyplot as plt
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import classification_report
-from sklearn.model_selection import train_test_split
 from utils import plot_confusion_matrix, plot_roc_curve, plot_wordcloud, plot_top_n_words
-from utils import get_close_predicitions
+from utils import get_close_predicitions, train_test_data
 
 
 def main():
     # Preprocessed Dataset
-    data = pd.read_csv("../data/reviews.csv")
-    # data = pd.read_csv("../data/tweets.csv")
-    print(data.head())
-    print("\n")
+    reviews_data = pd.read_csv("../data/reviews.csv")
+    tweets_data = pd.read_csv("../data/tweets.csv")
 
-    labels = data["sentiment"]
-    features = data["tokens"]
+    if reviews_data is not None:
+        print(27*"#", "REVIEWS", 27*"#")
+        print(reviews_data.head())
+        print("\n")
 
-    plot_wordcloud(features)
-    plot_top_n_words(features)
+    if tweets_data is not None:
+        print(27*"#", "TWEETS", 28*"#")
+        print(tweets_data.head())
+        print("\n")
+
+    # Plot dataset
+    if reviews_data is None:
+        plot_wordcloud(tweets_data["tokens"])
+        plot_top_n_words(tweets_data["tokens"])
+    elif tweets_data is None:
+        plot_wordcloud(reviews_data["tokens"])
+        plot_top_n_words(reviews_data["tokens"])
+    else:
+        features = pd.concat([reviews_data["tokens"], tweets_data["tokens"]])
+        plot_wordcloud(features)
+        plot_top_n_words(features)
+
+    # Split dataset
+    train_features, test_features, train_labels, test_labels = train_test_data(
+        (reviews_data["tokens"], reviews_data["sentiment"], 0.3),
+        (tweets_data["tokens"], tweets_data["sentiment"], 0.3) if tweets_data is not None else None
+    )
 
     # Vectorization
-    train_features, test_features, train_labels, test_labels = \
-        train_test_split(features, labels, test_size=0.3)
-
     vectorizer = TfidfVectorizer(ngram_range=(1, 2))
     vectorized_train_features = vectorizer.fit_transform(train_features)
     vectorized_test_features = vectorizer.transform(test_features)
 
-    # print(pd.DataFrame(vectorized_train_features.toarray(), columns=vectorizer.get_feature_names()))
+    # f = pd.DataFrame(vectorized_train_features.toarray(), columns=vectorizer.get_feature_names())
+    # print(f)
 
     # Training
     classifier = RandomForestClassifier()
