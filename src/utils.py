@@ -17,6 +17,21 @@ POSITIVE = 4
 NEGATIVE = 0
 
 
+def save_or_show(save, name):
+    if save:
+        plt.savefig(name)
+    else:
+        plt.show()
+
+
+def save_or_print(save, content, mode="a"):
+    if save:
+        with open("metrics.txt", mode) as out:
+            out.write(content + "\n")
+    else:
+        print(content)
+
+
 def read(folder, sentiment):
     rows = []
 
@@ -64,14 +79,15 @@ def train_test_data(data1, data2=None):
         pd.concat([test_labels1, test_labels2])
 
 
-def plot_wordcloud(tokens):
+def plot_wordcloud(tokens, save=False):
     content = " ".join(list(chain(*(s.strip("][").split("', '") for s in tokens))))
     cloud = WordCloud(max_font_size=50, max_words=100, background_color="white").generate(content)
     plt.imshow(cloud, interpolation="bilinear")
     plt.axis("off")
+    save_or_show(save, "wordcloud.png")
 
 
-def plot_top_n_words(tokens, n_words=20):
+def plot_top_n_words(tokens, n_words=20, save=False):
     vectorizer = CountVectorizer()
     bow = vectorizer.fit_transform(tokens)
     sum_words = bow.sum(axis=0)
@@ -80,6 +96,7 @@ def plot_top_n_words(tokens, n_words=20):
     top_words = words_freq[:n_words]
     data_frame = pd.DataFrame(top_words, columns=["token", "count"])
     data_frame.plot(x="token", y=["count"], kind="bar")
+    save_or_show(save, "top_n_words.png")
 
 
 def get_close_predicitions(y_pred, max_diff=0.05):
@@ -93,14 +110,15 @@ def get_close_predicitions(y_pred, max_diff=0.05):
     return close_predictions
 
 
-def plot_confusion_matrix(y_test, y_pred):
+def plot_confusion_matrix(y_test, y_pred, save=False):
     matrix = confusion_matrix(y_test, y_pred)
     classes = np.unique(y_test)
     visualization = ConfusionMatrixDisplay(confusion_matrix=matrix, display_labels=classes)
     visualization.plot()
+    save_or_show(save, "cm.png")
 
 
-def plot_roc_curve(y_test, y_pred):
+def plot_roc_curve(y_test, y_pred, save=False):
     classes = np.unique(y_test)
     _, axes = plt.subplots()
 
@@ -109,3 +127,5 @@ def plot_roc_curve(y_test, y_pred):
         roc_auc = auc(fpr, tpr)
         visualization = RocCurveDisplay(fpr=fpr, tpr=tpr, roc_auc=roc_auc)
         visualization.plot(ax=axes, name=f"ROC Curve of class {value}")
+
+    save_or_show(save, "roc.png")
