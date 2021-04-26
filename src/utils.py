@@ -5,11 +5,11 @@ import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics import confusion_matrix, roc_curve, auc
 from sklearn.metrics import ConfusionMatrixDisplay, RocCurveDisplay
+from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 import requests
 import numpy as np
 from wordcloud import WordCloud
-
 
 # constants
 MODEL = "en_core_web_trf"
@@ -44,6 +44,26 @@ def slang_to_text(text):
     return text if result == non_found else result
 
 
+def train_test_data(data1, data2=None):
+    train_features1, test_features1, train_labels1, test_labels1 = \
+        train_test_split(data1[0], data1[1], test_size=data1[2])
+
+    if data2 is None:
+        return train_features1, test_features1, train_labels1, test_labels1
+
+    if data2[2] == 0:
+        return train_features1, pd.concat([test_features1, data2[0]]), \
+            train_labels1, pd.concat([test_labels1, data2[1]])
+
+    train_features2, test_features2, train_labels2, test_labels2 = \
+        train_test_split(data2[0], data2[1], test_size=data2[2])
+
+    return pd.concat([train_features1, train_features2]), \
+        pd.concat([test_features1, test_features2]), \
+        pd.concat([train_labels1, train_labels2]), \
+        pd.concat([test_labels1, test_labels2])
+
+
 def plot_wordcloud(tokens):
     content = " ".join(list(chain(*(s.strip("][").split("', '") for s in tokens))))
     cloud = WordCloud(max_font_size=50, max_words=100, background_color="white").generate(content)
@@ -66,7 +86,7 @@ def get_close_predicitions(y_pred, max_diff=0.05):
     close_predictions = []
 
     for _, value in enumerate(y_pred):
-        diff = abs(value[1]-value[0])
+        diff = abs(value[1] - value[0])
         if diff <= max_diff:
             close_predictions.append([value[0], value[1]])
 
