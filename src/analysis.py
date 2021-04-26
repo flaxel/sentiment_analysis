@@ -22,21 +22,22 @@ def main():
     plot_top_n_words(features)
 
     # Vectorization
-    vectorizer = TfidfVectorizer(ngram_range=(1, 2))
-    vectorized_features = vectorizer.fit_transform(features)
-
-    # print(pd.DataFrame(vectorized_features.toarray(), columns=vectorizer.get_feature_names()))
-
     train_features, test_features, train_labels, test_labels = \
-        train_test_split(vectorized_features, labels, test_size=0.3)
+        train_test_split(features, labels, test_size=0.3)
+
+    vectorizer = TfidfVectorizer(ngram_range=(1, 2))
+    vectorized_train_features = vectorizer.fit_transform(train_features)
+    vectorized_test_features = vectorizer.transform(test_features)
+
+    # print(pd.DataFrame(vectorized_train_features.toarray(), columns=vectorizer.get_feature_names()))
 
     # Training
     classifier = RandomForestClassifier()
-    classifier.fit(train_features, train_labels)
+    classifier.fit(vectorized_train_features, train_labels)
 
     # Evaluation
-    prediction = classifier.predict(test_features)
-    prediction_proba = classifier.predict_proba(test_features)
+    prediction = classifier.predict(vectorized_test_features)
+    prediction_proba = classifier.predict_proba(vectorized_test_features)
 
     print(classification_report(test_labels, prediction))
     close_predictions = get_close_predicitions(prediction_proba)
