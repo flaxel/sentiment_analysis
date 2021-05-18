@@ -26,9 +26,6 @@ def preprocess(index, text):
     text = re.sub(r"can't", r"cannot", text)
     text = re.sub(r"n't", r"not", text)
 
-    # Reverting words that contain repeated letters
-    text = re.sub(r"(.)\1{2,}", r"\1\1\1", text)
-
     # Tokenization
     nlp = spacy.load(MODEL)
     doc = nlp(text)

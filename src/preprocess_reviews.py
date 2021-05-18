@@ -6,6 +6,9 @@ from utils import read, POSITIVE, NEGATIVE, MODEL
 
 
 def preprocess(index, text):
+    # Remove Hashtag & Mail-Symbol
+    text = re.sub(r"[#|@]", "", text)
+
     # Tokenization & Lemmatization
     nlp = spacy.load(MODEL)
     doc = nlp(text)
