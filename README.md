@@ -29,5 +29,26 @@ pipenv install --dev
 pipenv run python -m spacy download en_core_web_trf
 ```
 
+### Usage
+
+You can have a first look at the data if you execute the following command:
+
+```bash
+python first_look.py
+```
+
+If you want to pre-process the raw data, you can run one of the pre-processing scripts for the tweets or the film reviews.
+
+```bash
+python preprocess_tweets.py
+python preprocess_reviews.py
+```
+
+The pre-processed data can be analysed and the graphics and results can be saved with the option `-s`.
+
+```bash
+python analysis.py <-s>
+```
+
 [python3]: https://www.python.org/
 [pipenv]: https://pypi.org/project/pipenv/
