@@ -1,8 +1,12 @@
 import argparse
 import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, BaggingClassifier, AdaBoostClassifier, StackingClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.svm import SVC
+
 from utils import plot_confusion_matrix, plot_roc_curve, plot_wordcloud, plot_top_n_words
 from utils import get_close_predicitions, train_test_data, save_or_print
 
@@ -54,12 +58,21 @@ def main(args):
     )
 
     # Vectorization
-    vectorizer = TfidfVectorizer(ngram_range=(1, 2))
+    vectorizer = TfidfVectorizer(ngram_range=(1, 1))
     vectorized_train_features = vectorizer.fit_transform(train_features)
     vectorized_test_features = vectorizer.transform(test_features)
 
     # Training
-    classifier = RandomForestClassifier()
+    estimators = [
+        ("svm", SVC(probability=True)),
+        ("lr", LogisticRegression()),
+        ("nb", MultinomialNB())
+    ]
+
+    classifier = BaggingClassifier(base_estimator=SVC(probability=True))
+    # classifier = RandomForestClassifier()
+    # classifier = AdaBoostClassifier(base_estimator=SVC(probability=True))
+    # classifier = StackingClassifier(estimators=estimators)
     classifier.fit(vectorized_train_features, train_labels)
 
     # Evaluation
