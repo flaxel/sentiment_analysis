@@ -128,4 +128,6 @@ def plot_roc_curve(y_test, y_pred, save=False):
         visualization = RocCurveDisplay(fpr=fpr, tpr=tpr, roc_auc=roc_auc)
         visualization.plot(ax=axes, name=f"ROC Curve of class {value}")
 
+    axes.plot([0, 1], [0, 1], color='navy', linestyle='--', label='Random Classifier')
+    axes.legend(loc="lower right")
     save_or_show(save, "roc.png")
