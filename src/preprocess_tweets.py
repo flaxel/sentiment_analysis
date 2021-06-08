@@ -41,11 +41,11 @@ def preprocess(index, text):
     # Removing stop words
     text = [token for token in text if token not in STOP_WORDS]
 
-    # Removing numbers
-    text = [token for token in text if not re.match(r"\d+", token)]
-
     # Remove words less than three characters
     text = [token for token in text if not len(token) < 3]
+
+    # Removing numbers
+    text = [token for token in text if not re.match(r"\d+", token)]
 
     if index % 100 == 0:
         print("preprocess for dataset", index, "is running...")
