@@ -2,12 +2,20 @@ import re
 import pandas as pd
 import spacy
 from spacy.lang.en.stop_words import STOP_WORDS
-from utils import read, POSITIVE, NEGATIVE, MODEL
+from utils import read, POSITIVE, NEGATIVE, MODEL, slang_to_text
 
 
 def preprocess(index, text):
     # Remove Hashtag & Mail-Symbol
     text = re.sub(r"[#|@]", "", text)
+
+    # Replacing negative mentions
+    text = re.sub(r"won't", r"will not", text)
+    text = re.sub(r"can't", r"cannot", text)
+    text = re.sub(r"n't", r"not", text)
+
+    # Expanding acronyms
+    text = slang_to_text(text)
 
     # Tokenization & Lemmatization
     nlp = spacy.load(MODEL)

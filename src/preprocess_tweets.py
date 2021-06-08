@@ -29,7 +29,7 @@ def preprocess(index, text):
     # Tokenization
     nlp = spacy.load(MODEL)
     doc = nlp(text)
-    text = [token.text for token in doc]
+    text = [token.lemma_ for token in doc]
 
     # Lowercase
     text = [token.lower() for token in text]
@@ -38,11 +38,14 @@ def preprocess(index, text):
     text = [token for token in text if not (re.match(r"[^\w\s]", token) and len(token) == 1)]
     text = [token for token in text if token not in ["..", "..."]]
 
+    # Removing stop words
+    text = [token for token in text if token not in STOP_WORDS]
+
     # Removing numbers
     text = [token for token in text if not re.match(r"\d+", token)]
 
-    # Removing stop words
-    text = [token for token in text if token not in STOP_WORDS]
+    # Remove words less than three characters
+    text = [token for token in text if not len(token) < 3]
 
     if index % 100 == 0:
         print("preprocess for dataset", index, "is running...")
