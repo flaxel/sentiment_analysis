@@ -1,0 +1,36 @@
+name: experimenting
+
+on:
+  push:
+    branches:
+      - 'test-**'
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+         python-version: 3.9
+      - name: Set up CML
+        uses: iterative/setup-cml@v1
+      - name: Installing dependencies
+        run: |
+          python -m pip install --upgrade pipenv
+          pipenv install --dev
+      - name: Run model
+        run: |
+          cd src
+          pipenv run python analysis.py
+      - name: Write report
+        env:
+          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat metrics.txt >> report.md
+          cml-publish cm.png --md --title 'confusion-matrix' >> report.md
+          cml-publish roc.png --md --title 'roc-curve' >> report.md
+          cml-send-comment report.md
