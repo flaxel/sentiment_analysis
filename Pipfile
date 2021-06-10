@@ -12,6 +12,7 @@ spacy = "*"
 matplotlib = "*"
 pandas = "*"
 wordcloud = "*"
+transformers = "*"
 
 [dev-packages]
 pylint = "*"

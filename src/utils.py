@@ -3,7 +3,7 @@ import glob as gg
 from itertools import chain
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.metrics import confusion_matrix, roc_curve, auc
+from sklearn.metrics import confusion_matrix, roc_curve, auc, classification_report
 from sklearn.metrics import ConfusionMatrixDisplay, RocCurveDisplay
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
