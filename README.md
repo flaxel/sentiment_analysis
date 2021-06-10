@@ -47,7 +47,7 @@ python preprocess_reviews.py
 The pre-processed data can be analysed and the graphics and results can be saved with the option `-s`.
 
 ```bash
-python analysis.py <-s>
+python analysis_ensemble.py <-s>
 ```
 
 [python3]: https://www.python.org/
