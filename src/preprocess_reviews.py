@@ -2,7 +2,7 @@ import re
 import pandas as pd
 import spacy
 from spacy.lang.en.stop_words import STOP_WORDS
-from utils import read, POSITIVE, NEGATIVE, MODEL, slang_to_text
+from utils import MODEL, slang_to_text, read_reviews
 
 
 def preprocess(index, text):
@@ -44,10 +44,7 @@ def preprocess(index, text):
 
 
 def main():
-    rows = read("../data/review_polarity/txt_sentoken/pos/*.txt", POSITIVE) + \
-        read("../data/review_polarity/txt_sentoken/neg/*.txt", NEGATIVE)
-
-    reviews_df = pd.DataFrame(rows, columns=["sentiment", "id", "text"])
+    reviews_df = read_reviews()
 
     print(reviews_df.head())
     print("\n")

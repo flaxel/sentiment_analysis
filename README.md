@@ -44,10 +44,11 @@ python preprocess_tweets.py
 python preprocess_reviews.py
 ```
 
-The pre-processed data can be analysed and the graphics and results can be saved with the option `-s`.
+The preprocessed data can be analysed with the ensemble methods and the raw data with the transformer models. Afterwards, the results and graphics can be saved with the option `-s`.
 
 ```bash
-python analysis.py <-s>
+python analysis_ensemble.py <-s>
+python analysis_transformer.py <-s>
 ```
 
 [python3]: https://www.python.org/
