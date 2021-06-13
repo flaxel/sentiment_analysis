@@ -57,8 +57,6 @@ The [cache][huggingface_cache] for the downloaded models of the transformers can
 TRANSFORMERS_CACHE=../.cache/huggingface/
 ```
 
-test
-
 [python3]: https://www.python.org/
 [pipenv]: https://pypi.org/project/pipenv/
 [huggingface]: https://huggingface.co/
