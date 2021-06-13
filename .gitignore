@@ -4,10 +4,10 @@
 # Environments
 .venv/
 
-
 # Byte-compiled
 src/__pycache__/
 
-# Unzipped Data
+# Data
 data/kaggle_archive/
 data/review_polarity/
+.cache

@@ -44,12 +44,20 @@ python preprocess_tweets.py
 python preprocess_reviews.py
 ```
 
-The preprocessed data can be analysed with the ensemble methods and the raw data with the transformer models. Afterwards, the results and graphics can be saved with the option `-s`.
+The preprocessed data can be analysed with the ensemble methods and the raw data with the [huggingface][huggingface] transformer models. Afterwards, the results and graphics can be saved with the option `-s`.
 
 ```bash
 python analysis_ensemble.py <-s>
 python analysis_transformer.py <-s>
 ```
 
+The [cache][huggingface_cache] for the downloaded models of the transformers can be set with the following environment variable:
+
+```bash
+TRANSFORMERS_CACHE=../.cache/huggingface/
+```
+
 [python3]: https://www.python.org/
 [pipenv]: https://pypi.org/project/pipenv/
+[huggingface]: https://huggingface.co/
+[huggingface_cache]: https://huggingface.co/transformers/installation.html#caching-models
