@@ -22,13 +22,18 @@ jobs:
         run: |
           python -m pip install --upgrade pipenv
           pipenv install --dev
-      - name: Run model
-        run: |
-          cd src
-          pipenv run python analysis.py
+      - name: Run ensemble model
+        if: ${{ contains(github.event.issue.labels.*.name, 'ensemble') }}
+        working-directory: src
+        run: pipenv run python analysis-ensemble.py -s
+      - name: Run transformer model
+        if: ${{ contains(github.event.issue.labels.*.name, 'transformer') }}
+        working-directory: src
+        run: pipenv run python analysis-transformer.py -s
       - name: Write report
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        working-directory: src
         run: |
           cat metrics.txt >> report.md
           cml-publish cm.png --md --title 'confusion-matrix' >> report.md
