@@ -1,9 +1,8 @@
 name: experimenting
 
 on:
-  push:
-    branches:
-      - 'test-**'
+  pull_request:
+    types: [ labeled ]
 
 jobs:
   test:
@@ -23,13 +22,17 @@ jobs:
           python -m pip install --upgrade pipenv
           pipenv install --dev
       - name: Run ensemble model
-        if: ${{ contains(github.event.issue.labels.*.name, 'ensemble') }}
+        if: contains(github.event.pull_request.labels.*.name, 'ensemble')
         working-directory: src
-        run: pipenv run python analysis-ensemble.py -s
+        run: pipenv run python analysis_ensemble.py -s
+      - name: Extract Tweets
+        if: contains(github.event.pull_request.labels.*.name, 'transformer')
+        working-directory: data
+        run: unzip kaggle_archive.zip -d kaggle_archive
       - name: Run transformer model
-        if: ${{ contains(github.event.issue.labels.*.name, 'transformer') }}
+        if: contains(github.event.pull_request.labels.*.name, 'transformer')
         working-directory: src
-        run: pipenv run python analysis-transformer.py -s
+        run: pipenv run python analysis_transformer.py -s
       - name: Write report
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
