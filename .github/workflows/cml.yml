@@ -23,10 +23,12 @@ jobs:
           pipenv install --dev
       - name: Run ensemble model
         if: contains(github.event.pull_request.labels.*.name, 'ensemble')
-        run: pipenv run python src/analysis-ensemble.py -s
+        working-directory: src
+        run: pipenv run analysis-ensemble.py -s
       - name: Run transformer model
         if: contains(github.event.pull_request.labels.*.name, 'transformer')
-        run: pipenv run python src/analysis-transformer.py -s
+        working-directory: src
+        run: pipenv run analysis-transformer.py -s
       - name: Write report
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
