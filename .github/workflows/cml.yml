@@ -23,11 +23,11 @@ jobs:
           python -m pip install --upgrade pipenv
           pipenv install --dev
       - name: Run ensemble model
-        if: ${{ contains(github.event.pull_request.labels.*.name, 'ensemble') }}
+        if: contains(github.event.pull_request.labels.*.name, 'ensemble')
         working-directory: src
         run: pipenv run python analysis-ensemble.py -s
       - name: Run transformer model
-        if: ${{ contains(github.event.pull_request.labels.*.name, 'transformer') }}
+        if: contains(github.event.pull_request.labels.*.name, 'transformer')
         working-directory: src
         run: pipenv run python analysis-transformer.py -s
       - name: Write report
