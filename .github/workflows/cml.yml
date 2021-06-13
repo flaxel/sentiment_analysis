@@ -21,9 +21,11 @@ jobs:
         run: |
           python -m pip install --upgrade pipenv
           pipenv install --dev
-      - name: Python version
+      - name: test1
+        run: ls
+      - name: test2
         working-directory: src
-        run: python --version
+        run: ls
       - name: Run ensemble model
         if: contains(github.event.pull_request.labels.*.name, 'ensemble')
         working-directory: src
