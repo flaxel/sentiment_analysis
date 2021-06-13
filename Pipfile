@@ -13,6 +13,7 @@ matplotlib = "*"
 pandas = "*"
 wordcloud = "*"
 transformers = "*"
+torch = "*"
 
 [dev-packages]
 pylint = "*"
