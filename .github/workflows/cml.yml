@@ -23,7 +23,7 @@ jobs:
           pipenv install --dev
       - name: Run ensemble model
         if: contains(github.event.pull_request.labels.*.name, 'ensemble')
-        working-directory: src
+        # working-directory: src
         run: pipenv run python analysis-ensemble.py -s
       - name: Run transformer model
         if: contains(github.event.pull_request.labels.*.name, 'transformer')
