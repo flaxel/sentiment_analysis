@@ -30,8 +30,8 @@ jobs:
         working-directory: src
         run: |
           unzip ../data/kaggle_archive.zip -d kaggle_archive
-          ls data
-          ls src
+          ls ../data
+          ls
           pipenv run python analysis_transformer.py -s
       - name: Write report
         env:
