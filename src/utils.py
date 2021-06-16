@@ -84,16 +84,13 @@ def train_test_data(data1, data2=None):
         return train_features1, test_features1, train_labels1, test_labels1
 
     if data2[2] == 0:
-        return train_features1, pd.concat([test_features1, data2[0]]), \
-            train_labels1, pd.concat([test_labels1, data2[1]])
+        return data1[0], data2[0], data1[1], data2[1]
 
     train_features2, test_features2, train_labels2, test_labels2 = \
         train_test_split(data2[0], data2[1], test_size=data2[2])
 
-    return pd.concat([train_features1, train_features2]), \
-        pd.concat([test_features1, test_features2]), \
-        pd.concat([train_labels1, train_labels2]), \
-        pd.concat([test_labels1, test_labels2])
+    return pd.concat([data1[0], train_features2]), test_features2, \
+        pd.concat([data1[1], train_labels2]), test_labels2
 
 
 def visualize_data(reviews_data, tweets_data, save=False):
