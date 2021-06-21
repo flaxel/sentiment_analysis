@@ -16,7 +16,7 @@ def main(args):
     # Split dataset
     train_features, test_features, train_labels, test_labels = train_test_data(
         (reviews_data["tokens"], reviews_data["sentiment"], 0.3),
-        (tweets_data["tokens"], tweets_data["sentiment"], 0.2) if tweets_data is not None else None
+        (tweets_data["tokens"], tweets_data["sentiment"], 0.3) if tweets_data is not None else None
     )
 
     # Vectorization
