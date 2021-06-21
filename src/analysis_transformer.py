@@ -14,23 +14,23 @@ def main(args):
     sentences = tweets_df["text"].tolist()
     labels = tweets_df["target"].tolist()
 
-    # model = "distilbert-base-uncased-finetuned-sst-2-english"
+    model = "distilbert-base-uncased-finetuned-sst-2-english"
     # model = "siebert/sentiment-roberta-large-english"
-    # classifier = pipeline("sentiment-analysis", model=model)
-    # results = classifier(sentences)
+    classifier = pipeline("sentiment-analysis", model=model)
+    results = classifier(sentences)
 
-    # scores = np.array([(
-    #     [1-e["score"], e["score"]] if e["label"] == "POSITIVE" else [e["score"], 1-e["score"]]
-    # ) for e in results])
-    # predicted_labels = [(POSITIVE if e["label"] == "POSITIVE" else NEGATIVE) for e in results]
+    scores = np.array([(
+         [1-e["score"], e["score"]] if e["label"] == "POSITIVE" else [e["score"], 1-e["score"]]
+    ) for e in results])
+    predicted_labels = [(POSITIVE if e["label"] == "POSITIVE" else NEGATIVE) for e in results]
 
-    classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
-    results = classifier(sentences, ["POSITIVE", "NEGATIVE"])
+    # classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
+    # results = classifier(sentences, ["POSITIVE", "NEGATIVE"])
 
-    scores = np.array([(e["scores"]) for e in results])
-    predicted_labels = [(
-        POSITIVE if e["labels"][np.argmax(e["scores"])] == "POSITIVE" else NEGATIVE
-    ) for e in results]
+    # scores = np.array([(e["scores"]) for e in results])
+    # predicted_labels = [(
+    #    POSITIVE if e["labels"][np.argmax(e["scores"])] == "POSITIVE" else NEGATIVE
+    # ) for e in results]
 
     visualize_evaluate(predicted_labels, scores, labels, args.save)
 
