@@ -19,7 +19,7 @@ def main(args):
     # classifier = pipeline("sentiment-analysis", model=model)
     # results = classifier(sentences)
 
-    # scores = array([(
+    # scores = np.array([(
     #     [1-e["score"], e["score"]] if e["label"] == "POSITIVE" else [e["score"], 1-e["score"]]
     # ) for e in results])
     # predicted_labels = [(POSITIVE if e["label"] == "POSITIVE" else NEGATIVE) for e in results]
