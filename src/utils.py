@@ -78,7 +78,7 @@ def slang_to_text(text):
 
 def train_test_data(data1, data2=None):
     train_features1, test_features1, train_labels1, test_labels1 = \
-        train_test_split(data1[0], data1[1], test_size=data1[2])
+        train_test_split(data1[0], data1[1], train_size=data1[2])
 
     if data2 is None:
         return train_features1, test_features1, train_labels1, test_labels1
@@ -87,7 +87,7 @@ def train_test_data(data1, data2=None):
         return data1[0], data2[0], data1[1], data2[1]
 
     train_features2, test_features2, train_labels2, test_labels2 = \
-        train_test_split(data2[0], data2[1], test_size=data2[2])
+        train_test_split(data2[0], data2[1], train_size=data2[2])
 
     return pd.concat([data1[0], train_features2]), test_features2, \
         pd.concat([data1[1], train_labels2]), test_labels2
