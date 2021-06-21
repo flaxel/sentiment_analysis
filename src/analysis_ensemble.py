@@ -1,6 +1,6 @@
 import argparse
 import pandas as pd
-from sklearn.ensemble import BaggingClassifier
+from sklearn.ensemble import AdaBoostClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.svm import SVC
 from utils import train_test_data, visualize_data, visualize_evaluate
@@ -16,7 +16,7 @@ def main(args):
     # Split dataset
     train_features, test_features, train_labels, test_labels = train_test_data(
         (reviews_data["tokens"], reviews_data["sentiment"], 0.3),
-        (tweets_data["tokens"], tweets_data["sentiment"], 0.3) if tweets_data is not None else None
+        (tweets_data["tokens"], tweets_data["sentiment"], 0.2) if tweets_data is not None else None
     )
 
     # Vectorization
@@ -31,9 +31,9 @@ def main(args):
     #    ("nb", MultinomialNB())
     # ]
 
-    classifier = BaggingClassifier(base_estimator=SVC(probability=True))
+    # classifier = BaggingClassifier(base_estimator=SVC(probability=True))
     # classifier = RandomForestClassifier()
-    # classifier = AdaBoostClassifier(base_estimator=SVC(probability=True))
+    classifier = AdaBoostClassifier(base_estimator=SVC(probability=True))
     # classifier = StackingClassifier(estimators=estimators)
     classifier.fit(vectorized_train_features, train_labels)
 
