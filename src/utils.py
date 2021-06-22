@@ -117,8 +117,8 @@ def visualize_evaluate(prediction, prediction_proba, test_labels, save=False):
     close_predictions = __get_close_predicitions(prediction_proba)
 
     save_or_print(save, report)
-    save_or_print(save, ", ".join(str(e) for e in close_predictions))
-    save_or_print(save, "sum of close predictions: " + str(len(close_predictions)))
+    save_or_print(save, ", ".join(str(e) for e in close_predictions)
+                  + "\nsum of close predictions: " + str(len(close_predictions)))
 
     __plot_roc_curve(test_labels, prediction_proba, save=save)
     __plot_confusion_matrix(test_labels, prediction, save=save)
