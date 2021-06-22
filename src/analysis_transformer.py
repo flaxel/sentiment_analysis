@@ -6,7 +6,7 @@ from utils import NEGATIVE, POSITIVE, visualize_evaluate, read_tweets
 
 
 def main(args):
-    tweets_df = read_tweets(500)
+    tweets_df = read_tweets(20)
 
     print(tweets_df.head())
     print("\n")
@@ -27,7 +27,9 @@ def main(args):
     classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
     results = classifier(sentences, ["POSITIVE", "NEGATIVE"])
 
-    scores = np.array([(e["scores"]) for e in results])
+    scores = np.array([(
+        e["scores"] if e["labels"] == ["NEGATIVE", "POSITIVE"] else [e["scores"][1], e["scores"][0]]
+    ) for e in results])
     predicted_labels = [(
         POSITIVE if e["labels"][np.argmax(e["scores"])] == "POSITIVE" else NEGATIVE
     ) for e in results]
