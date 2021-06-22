@@ -6,7 +6,7 @@ from utils import NEGATIVE, POSITIVE, visualize_evaluate, read_tweets
 
 
 def main(args):
-    tweets_df = read_tweets(20)
+    tweets_df = read_tweets(500)
 
     print(tweets_df.head())
     print("\n")
