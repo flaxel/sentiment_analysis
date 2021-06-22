@@ -2,14 +2,13 @@ import argparse
 
 import numpy as np
 from transformers import pipeline
-from utils import NEGATIVE, POSITIVE, visualize_evaluate, read_tweets
+from utils import NEGATIVE, POSITIVE, visualize_evaluate, read_tweets, save_or_print
 
 
 def main(args):
     tweets_df = read_tweets(500)
 
-    print(tweets_df.head())
-    print("\n")
+    save_or_print(args.save, tweets_df.head().to_string())
 
     sentences = tweets_df["text"].tolist()
     labels = tweets_df["target"].tolist()

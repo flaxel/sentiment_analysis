@@ -27,7 +27,7 @@ def save_or_show(save, name):
 def save_or_print(save, content, mode="a"):
     if save:
         with open("metrics.txt", mode) as out:
-            out.write(content + "\n")
+            out.write(__code_tags(content) + "\n")
     else:
         print(content)
 
@@ -95,12 +95,10 @@ def train_test_data(data1, data2=None):
 
 def visualize_data(reviews_data, tweets_data, save=False):
     if reviews_data is not None:
-        save_or_print(save, 27*"#" + " REVIEWS " + 27*"#")
-        save_or_print(save, reviews_data.head().to_string())
+        save_or_print(save, 27*"#" + " REVIEWS " + 27*"#" + "\n" + reviews_data.head().to_string())
 
     if tweets_data is not None:
-        save_or_print(save, 27*"#" + " TWEETS " + 28*"#")
-        save_or_print(save, tweets_data.head().to_string())
+        save_or_print(save, 27*"#" + " TWEETS " + 28*"#" + "\n" + tweets_data.head().to_string())
 
     if reviews_data is None:
         __plot_wordcloud(tweets_data["tokens"], save=save)
@@ -119,8 +117,8 @@ def visualize_evaluate(prediction, prediction_proba, test_labels, save=False):
     close_predictions = __get_close_predicitions(prediction_proba)
 
     save_or_print(save, report)
-    save_or_print(save, ", ".join(str(e) for e in close_predictions))
-    save_or_print(save, "sum of close predictions: " + str(len(close_predictions)))
+    save_or_print(save, ", ".join(str(e) for e in close_predictions)
+                  + "\nsum of close predictions: " + str(len(close_predictions)))
 
     __plot_roc_curve(test_labels, prediction_proba, save=save)
     __plot_confusion_matrix(test_labels, prediction, save=save)
@@ -178,3 +176,10 @@ def __plot_roc_curve(y_test, y_pred, save=False):
     axes.plot([0, 1], [0, 1], color='navy', linestyle='--', label='Random Classifier')
     axes.legend(loc="lower right")
     save_or_show(save, "roc.png")
+
+
+def __code_tags(text):
+    code_tags = "```"
+    return """{tags}
+    {text}
+{tags}""".format(tags=code_tags, text=text)
