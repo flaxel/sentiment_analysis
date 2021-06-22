@@ -23,6 +23,7 @@ def main(args):
     # ) for e in results])
     # predicted_labels = [(POSITIVE if e["label"] == "POSITIVE" else NEGATIVE) for e in results]
 
+    # zero shot
     classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
     results = classifier(sentences, ["POSITIVE", "NEGATIVE"])
 
