@@ -7,7 +7,7 @@ from utils import train_test_data, visualize_data, visualize_evaluate
 
 
 def main(args):
-    # Load Preprocessed Dataset
+    # Load Preprocessed Datasets
     reviews_data = pd.read_csv("../data/reviews.csv")
     tweets_data = pd.read_csv("../data/tweets.csv")
 
