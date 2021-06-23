@@ -1,22 +1,19 @@
 import argparse
 import pandas as pd
-from sklearn.ensemble import BaggingClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.svm import SVC
 from utils import train_test_data, visualize_data, visualize_evaluate
 
 
 def main(args):
     # Load Preprocessed Dataset
     reviews_data = pd.read_csv("../data/reviews.csv")
-    tweets_data = pd.read_csv("../data/tweets.csv")
 
-    visualize_data(reviews_data, tweets_data, args.save)
+    visualize_data(reviews_data, None, args.save)
 
     # Split dataset
     train_features, test_features, train_labels, test_labels = train_test_data(
-        (reviews_data["tokens"], reviews_data["sentiment"], 0.3),
-        (tweets_data["tokens"], tweets_data["sentiment"], 0.3) if tweets_data is not None else None
+        (reviews_data["tokens"], reviews_data["sentiment"], 0.7)
     )
 
     # Vectorization
@@ -31,8 +28,8 @@ def main(args):
     #    ("nb", MultinomialNB())
     # ]
 
-    classifier = BaggingClassifier(base_estimator=SVC(probability=True))
-    # classifier = RandomForestClassifier()
+    # classifier = BaggingClassifier(base_estimator=SVC(probability=True))
+    classifier = RandomForestClassifier()
     # classifier = AdaBoostClassifier(base_estimator=SVC(probability=True))
     # classifier = StackingClassifier(estimators=estimators)
     classifier.fit(vectorized_train_features, train_labels)
