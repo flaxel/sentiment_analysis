@@ -1,6 +1,6 @@
 import argparse
 import pandas as pd
-from sklearn.ensemble import BaggingClassifier
+from sklearn.ensemble import AdaBoostClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.svm import SVC
 from utils import train_test_data, visualize_data, visualize_evaluate
@@ -31,9 +31,9 @@ def main(args):
     #    ("nb", MultinomialNB())
     # ]
 
-    classifier = BaggingClassifier(base_estimator=SVC(probability=True))
+    # classifier = BaggingClassifier(base_estimator=SVC(probability=True))
     # classifier = RandomForestClassifier()
-    # classifier = AdaBoostClassifier(base_estimator=SVC(probability=True))
+    classifier = AdaBoostClassifier(base_estimator=SVC(probability=True))
     # classifier = StackingClassifier(estimators=estimators)
     classifier.fit(vectorized_train_features, train_labels)
 
