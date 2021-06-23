@@ -13,7 +13,7 @@ def main(args):
 
     # Split dataset
     train_features, test_features, train_labels, test_labels = train_test_data(
-        (tweets_data["tokens"], tweets_data["sentiment"], 0.3)
+        (tweets_data["tokens"], tweets_data["sentiment"], 0.7)
     )
 
     # Vectorization
