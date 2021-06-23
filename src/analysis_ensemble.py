@@ -1,7 +1,9 @@
 import argparse
 import pandas as pd
-from sklearn.ensemble import BaggingClassifier
+from sklearn.ensemble import StackingClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.naive_bayes import MultinomialNB
 from sklearn.svm import SVC
 from utils import train_test_data, visualize_data, visualize_evaluate
 
@@ -16,7 +18,7 @@ def main(args):
     # Split dataset
     train_features, test_features, train_labels, test_labels = train_test_data(
         (reviews_data["tokens"], reviews_data["sentiment"], 0.3),
-        (tweets_data["tokens"], tweets_data["sentiment"], 0.3) if tweets_data is not None else None
+        (tweets_data["tokens"], tweets_data["sentiment"], 0.0) if tweets_data is not None else None
     )
 
     # Vectorization
@@ -25,16 +27,16 @@ def main(args):
     vectorized_test_features = vectorizer.transform(test_features)
 
     # Training
-    # estimators = [
-    #    ("svm", SVC(probability=True)),
-    #    ("lr", LogisticRegression()),
-    #    ("nb", MultinomialNB())
-    # ]
+    estimators = [
+        ("svm", SVC(probability=True)),
+        ("lr", LogisticRegression()),
+        ("nb", MultinomialNB())
+    ]
 
-    classifier = BaggingClassifier(base_estimator=SVC(probability=True))
+    # classifier = BaggingClassifier(base_estimator=SVC(probability=True))
     # classifier = RandomForestClassifier()
     # classifier = AdaBoostClassifier(base_estimator=SVC(probability=True))
-    # classifier = StackingClassifier(estimators=estimators)
+    classifier = StackingClassifier(estimators=estimators)
     classifier.fit(vectorized_train_features, train_labels)
 
     # Evaluation
